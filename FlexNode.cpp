@@ -1,5 +1,10 @@
 #include "FlexNode.h"
 
+/*
+todo fix string case in copy constructor
+*/
+
+
 bool FlexNode::setNode(Type newType) {
     if(containsData) {return false;}
     containsData = true;
@@ -22,6 +27,17 @@ bool FlexNode::resetNode() {
     type = Type::UNINITIALIZED;
     containsData = false;
     return true;
+}
+
+FlexNode::FlexNode(FlexNode &flexNode) {
+    switch(flexNode.type) {
+        case Type::INT: addInt(*flexNode.num); break;
+        case Type::DOUBLE: addDouble(*flexNode.dbl); break;
+        case Type::CHAR: addChar(*flexNode.ch); break;
+        //!case Type::STRING: ch = ; break;
+        case Type::BOOL: addBool(*flexNode.boo); break;
+        default: break;
+    }
 }
 
 bool FlexNode::addInt(int intToAdd) {
@@ -95,6 +111,10 @@ std::ostream &FlexNode::print(std::ostream &out) {
         case Type::BOOL: return out << *boo; break;
         default: return out;
     }
+}
+
+FlexNode::~FlexNode() {
+    resetNode();
 }
 
 std::ostream& operator<<(std::ostream& out, FlexNode flexNode) {
