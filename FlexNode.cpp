@@ -16,11 +16,11 @@ bool FlexNode::resetNode() {
     if(!containsData) {return false;}
     
     switch(type) {
-        case Type::INT: delete num; break;
-        case Type::DOUBLE: delete dbl; break;
-        case Type::CHAR: delete ch; break;
-        case Type::STRING: delete[] ch; break;
-        case Type::BOOL: delete boo; break;
+        case Type::INT: delete num; num = nullptr; break;
+        case Type::DOUBLE: delete dbl; dbl = nullptr; break;
+        case Type::CHAR: delete ch; ch = nullptr; break;
+        case Type::STRING: delete[] ch; ch = nullptr; break;
+        case Type::BOOL: delete boo; boo = nullptr; break;
         default: return false;                
     }
     
