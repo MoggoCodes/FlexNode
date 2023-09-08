@@ -52,5 +52,5 @@ int main() {
     std::cout   << "Welcome to test mode. Choose from the following:\n"
                 << "1. Preset Tests\n"
                 << "2. Custom Tests\n"
-                << "3. Exit"
+                << "3. Exit";
 }
