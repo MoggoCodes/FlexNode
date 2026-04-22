@@ -26,50 +26,47 @@ const char* typeName(const Type type) {
 } // namespace
 
 bool FlexNode::setNode(const Type newType) {
-    if(type != Type::UNINITIALIZED || newType == Type::UNINITIALIZED) {return false;}
-    type = newType;
-    return true;
+    return type == Type::UNINITIALIZED && newType != Type::UNINITIALIZED;
 }
 
 bool FlexNode::resetNode() {
-    if(type == Type::UNINITIALIZED) {return false;}
-    
-    switch(type) {
-        case Type::INT: delete num; num = nullptr; break;
-        case Type::DOUBLE: delete dbl; dbl = nullptr; break;
-        case Type::CHAR: delete ch; ch = nullptr; break;
-        case Type::STRING: delete[] ch; ch = nullptr; break;
-        case Type::BOOL: delete boo; boo = nullptr; break;
-        default: break;
+    if (type == Type::UNINITIALIZED) {return false;}
+
+    switch (type) {
+        case Type::STRING:
+            storageAs<std::string>()->~basic_string();
+            break;
+        default:
+            break;
     }
-    
+
     type = Type::UNINITIALIZED;
     return true;
 }
 
 FlexNode::FlexNode(const FlexNode &flexNode) : type(Type::UNINITIALIZED) {
-    switch(flexNode.type) {
-        case Type::INT: addInt(flexNode.asInt()); break;
-        case Type::DOUBLE: addDouble(flexNode.asDouble()); break;
-        case Type::CHAR: addChar(flexNode.asChar()); break;
-        case Type::STRING: addString(flexNode.asString()); break;
-        case Type::BOOL: addBool(flexNode.asBool()); break;
+    switch (flexNode.type) {
+        case Type::INT: addInt(*flexNode.storageAs<int>()); break;
+        case Type::DOUBLE: addDouble(*flexNode.storageAs<double>()); break;
+        case Type::CHAR: addChar(*flexNode.storageAs<char>()); break;
+        case Type::STRING: addString(*flexNode.storageAs<std::string>()); break;
+        case Type::BOOL: addBool(*flexNode.storageAs<bool>()); break;
         default: break;
     }
 }
 
 FlexNode& FlexNode::operator=(const FlexNode &rhs) {
-    if(this == &rhs) {
+    if (this == &rhs) {
         return *this;
     }
 
     resetNode();
-    switch(rhs.type) {
-        case Type::INT: addInt(*rhs.num); break;
-        case Type::DOUBLE: addDouble(*rhs.dbl); break;
-        case Type::CHAR: addChar(*rhs.ch); break;
-        case Type::STRING: addString(rhs.ch != nullptr ? rhs.ch : ""); break;
-        case Type::BOOL: addBool(*rhs.boo); break;
+    switch (rhs.type) {
+        case Type::INT: addInt(*rhs.storageAs<int>()); break;
+        case Type::DOUBLE: addDouble(*rhs.storageAs<double>()); break;
+        case Type::CHAR: addChar(*rhs.storageAs<char>()); break;
+        case Type::STRING: addString(*rhs.storageAs<std::string>()); break;
+        case Type::BOOL: addBool(*rhs.storageAs<bool>()); break;
         default: break;
     }
 
@@ -77,118 +74,113 @@ FlexNode& FlexNode::operator=(const FlexNode &rhs) {
 }
 
 bool FlexNode::addInt(const int &intToAdd) {
-    if(!setNode(Type::INT)) {return false;}
-    num = new int(intToAdd);
+    if (!setNode(Type::INT)) {return false;}
+    new (storage) int(intToAdd);
+    type = Type::INT;
     return true;
 }
 
 bool FlexNode::addDouble(const double &doubleToAdd) {
-    if(!setNode(Type::DOUBLE)) {return false;}
-    dbl = new double(doubleToAdd);
+    if (!setNode(Type::DOUBLE)) {return false;}
+    new (storage) double(doubleToAdd);
+    type = Type::DOUBLE;
     return true;
 }
 
 bool FlexNode::addChar(const char &charToAdd) {
-    if(!setNode(Type::CHAR)) {return false;}
-    ch = new char(charToAdd);
+    if (!setNode(Type::CHAR)) {return false;}
+    new (storage) char(charToAdd);
+    type = Type::CHAR;
     return true;
 }
 
 bool FlexNode::addString(const std::string &strToAdd) {
-    if(!setNode(Type::STRING)) {return false;}
-    ch = new char[strToAdd.length() + 1];
-    for(std::string::size_type i = 0; i < strToAdd.length(); ++i) {
-        ch[i] = strToAdd[i];
-    }
-    ch[strToAdd.length()] = '\0';
+    if (!setNode(Type::STRING)) {return false;}
+    new (storage) std::string(strToAdd);
+    type = Type::STRING;
     return true;
 }
 
 bool FlexNode::addBool(const bool &boolToAdd) {
-    if(!setNode(Type::BOOL)) {return false;}
-    boo = new bool(boolToAdd);
+    if (!setNode(Type::BOOL)) {return false;}
+    new (storage) bool(boolToAdd);
+    type = Type::BOOL;
     return true;
 }
 
 bool FlexNode::changeInt(const int &newInt) {
-    if(type != Type::INT) {return false;}
-    if(!resetNode()) {return false;}
-    return addInt(newInt);
+    if (type != Type::INT) {return false;}
+    *storageAs<int>() = newInt;
+    return true;
 }
 
 bool FlexNode::changeDouble(const double &newDbl) {
-    if(type != Type::DOUBLE) {return false;}
-    if(!resetNode()) {return false;}
-    return addDouble(newDbl);
+    if (type != Type::DOUBLE) {return false;}
+    *storageAs<double>() = newDbl;
+    return true;
 }
 
 bool FlexNode::changeChar(const char &newChar) {
-    if(type != Type::CHAR) {return false;}
-    if(!resetNode()) {return false;}
-    return addChar(newChar);
+    if (type != Type::CHAR) {return false;}
+    *storageAs<char>() = newChar;
+    return true;
 }
 
 bool FlexNode::changeString(const std::string &newStr) {
-    if(type != Type::STRING) {return false;}
-    if(!resetNode()) {return false;}
-    return addString(newStr);
+    if (type != Type::STRING) {return false;}
+    *storageAs<std::string>() = newStr;
+    return true;
 }
 
 bool FlexNode::changeBool(const bool &newBool) {
-    if(type != Type::BOOL) {return false;}
-    if(!resetNode()) {return false;}
-    return addBool(newBool);
+    if (type != Type::BOOL) {return false;}
+    *storageAs<bool>() = newBool;
+    return true;
 }
 
 int FlexNode::asInt() const {
     if (type != Type::INT) {throwTypeMismatch(Type::INT, type);}
-    if (num == nullptr) {throw std::runtime_error("FlexNode internal error: INT storage is null.");}
-    return *num;
+    return *storageAs<int>();
 }
 
 double FlexNode::asDouble() const {
     if (type == Type::INT) {
-        if (num == nullptr) {throw std::runtime_error("FlexNode internal error: INT storage is null.");}
-        return static_cast<double>(*num);
+        return static_cast<double>(*storageAs<int>());
     }
     if (type != Type::DOUBLE) {
         throw std::runtime_error(
             "FlexNode type mismatch. Expected DOUBLE or INT, got " + std::string(typeName(type)) + '.'
         );
     }
-    if (dbl == nullptr) {throw std::runtime_error("FlexNode internal error: DOUBLE storage is null.");}
-    return *dbl;
+    return *storageAs<double>();
 }
 
 char FlexNode::asChar() const {
     if (type != Type::CHAR) {throwTypeMismatch(Type::CHAR, type);}
-    if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: CHAR storage is null.");}
-    return *ch;
+    return *storageAs<char>();
 }
 
 std::string FlexNode::asString() const {
     if (type == Type::CHAR) {
-        if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: CHAR storage is null.");}
-        return std::string(1, *ch);
+        return std::string(1, *storageAs<char>());
     }
     if (type != Type::STRING) {
         throw std::runtime_error(
             "FlexNode type mismatch. Expected STRING or CHAR, got " + std::string(typeName(type)) + '.'
         );
     }
-    if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: STRING storage is null.");}
-    return {ch};
+    return *storageAs<std::string>();
 }
 
 bool FlexNode::asBool() const {
     if (type != Type::BOOL) {throwTypeMismatch(Type::BOOL, type);}
-    if (boo == nullptr) {throw std::runtime_error("FlexNode internal error: BOOL storage is null.");}
-    return *boo;
+    return *storageAs<bool>();
 }
 
 std::ostream &FlexNode::print(std::ostream &out) const {
-    switch(type) {
-        case Type::INT: return out << this->asInt();
+    switch (type) {
+        case Type::INT:
+            return out << this->asInt();
         case Type::DOUBLE: {
             std::ostringstream formatted;
             formatted << this->asDouble();
@@ -200,10 +192,14 @@ std::ostream &FlexNode::print(std::ostream &out) const {
             }
             return out << text;
         }
-        case Type::CHAR: return out << '\'' << this->asChar() << '\'';
-        case Type::STRING: return out << '"' << this->asString() << '"';
-        case Type::BOOL: return out << this->asBool();
-        default: return out;
+        case Type::CHAR:
+            return out << '\'' << this->asChar() << '\'';
+        case Type::STRING:
+            return out << '"' << this->asString() << '"';
+        case Type::BOOL:
+            return out << this->asBool();
+        default:
+            return out;
     }
 }
 
