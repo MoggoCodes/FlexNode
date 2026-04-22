@@ -1,0 +1,158 @@
+#include "FlexNodeTests.h"
+
+#include "FlexNode.h"
+
+#include <sstream>
+#include <stdexcept>
+#include <string>
+
+namespace {
+
+void recordStep(TestSummary &summary, std::ostream &out, const std::string &step, const bool passed) {
+    ++summary.total;
+    if (passed) {
+        ++summary.passed;
+        out << "  [PASS] " << step << '\n';
+    } else {
+        ++summary.failed;
+        out << "  [FAIL] " << step << '\n';
+    }
+}
+
+template <typename Callable>
+void recordRuntimeThrow(TestSummary &summary, std::ostream &out, const std::string &step, Callable &&callable) {
+    try {
+        callable();
+    } catch (const std::runtime_error &) {
+        recordStep(summary, out, step, true);
+        return;
+    } catch (...) {
+    }
+    recordStep(summary, out, step, false);
+}
+
+TestSummary combine(const TestSummary &a, const TestSummary &b) {
+    TestSummary merged;
+    merged.total = a.total + b.total;
+    merged.passed = a.passed + b.passed;
+    merged.failed = a.failed + b.failed;
+    return merged;
+}
+
+} // namespace
+
+TestSummary runWorkflowA(std::ostream &out) {
+    out << "\n Workflow A: numeric lifecycle\n";
+    TestSummary summary;
+
+    FlexNode node;
+    recordStep(summary, out, "A1 node starts empty", node.isEmpty());
+    recordStep(summary, out, "A2 addInt succeeds", node.addInt(1));
+    recordStep(summary, out, "A3 asInt reads 1", node.asInt() == 1);
+    recordStep(summary, out, "A4 changeInt to 2 succeeds", node.changeInt(2));
+    recordStep(summary, out, "A5 asInt reads 2", node.asInt() == 2);
+    recordStep(summary, out, "A6 clear succeeds", node.clear());
+    recordStep(summary, out, "A7 addDouble succeeds after clear", node.addDouble(5));
+    recordStep(summary, out, "A8 asDouble reads 5.0", node.asDouble() == 5.0);
+    std::ostringstream formatted;
+    formatted << node;
+    recordStep(summary, out, "A9 double output remains 5.0", formatted.str() == "5.0");
+    recordStep(summary, out, "A10 changeDouble to 8.5 succeeds", node.changeDouble(8.5));
+    recordStep(summary, out, "A11 asDouble reads 8.5", node.asDouble() == 8.5);
+
+    out << "  Workflow A Summary: " << summary.passed << '/' << summary.total
+        << " passed, " << summary.failed << " failed.\n";
+    return summary;
+}
+
+TestSummary runWorkflowB(std::ostream &out) {
+    out << "\n Workflow B: text and boolean lifecycle\n";
+    TestSummary summary;
+
+    FlexNode node;
+    recordStep(summary, out, "B1 addChar succeeds", node.addChar('x'));
+    std::ostringstream charOut;
+    charOut << node;
+    recordStep(summary, out, "B2 char output is quoted", charOut.str() == "'x'");
+    recordStep(summary, out, "B3 clear succeeds", node.clear());
+    recordStep(summary, out, "B4 addString succeeds", node.addString("hello"));
+    recordStep(summary, out, "B5 asString reads hello", node.asString() == "hello");
+    recordStep(summary, out, "B6 changeString to world succeeds", node.changeString("world"));
+    recordStep(summary, out, "B7 asString reads world", node.asString() == "world");
+    std::ostringstream stringOut;
+    stringOut << node;
+    recordStep(summary, out, "B8 string output is quoted", stringOut.str() == "\"world\"");
+    recordStep(summary, out, "B9 clear succeeds again", node.clear());
+    recordStep(summary, out, "B10 addBool succeeds", node.addBool(true));
+    recordStep(summary, out, "B11 asBool reads true", node.asBool());
+    recordStep(summary, out, "B12 changeBool to false succeeds", node.changeBool(false));
+    recordStep(summary, out, "B13 asBool reads false", !node.asBool());
+
+    out << "  Workflow B Summary: " << summary.passed << '/' << summary.total
+        << " passed, " << summary.failed << " failed.\n";
+    return summary;
+}
+
+TestSummary runWorkflowC(std::ostream &out) {
+    out << "\n Workflow C: copy and assignment across steps\n";
+    TestSummary summary;
+
+    FlexNode source;
+    recordStep(summary, out, "C1 source addString(root) succeeds", source.addString("root"));
+
+    FlexNode copied(source);
+    recordStep(summary, out, "C2 copy constructor preserved root", copied.asString() == "root");
+
+    recordStep(summary, out, "C3 source changeString(updated) succeeds", source.changeString("updated"));
+    recordStep(summary, out, "C4 source now reads updated", source.asString() == "updated");
+    recordStep(summary, out, "C5 copied still reads root", copied.asString() == "root");
+
+    FlexNode assigned;
+    assigned.addInt(99);
+    assigned = source;
+    recordStep(summary, out, "C6 assignment changed target type to STRING", assigned.is(Type::STRING));
+    recordStep(summary, out, "C7 assignment copied updated value", assigned.asString() == "updated");
+
+    recordStep(summary, out, "C8 source clear succeeds", source.clear());
+    recordStep(summary, out, "C9 source is empty after clear", source.isEmpty());
+    recordStep(summary, out, "C10 assigned remains updated", assigned.asString() == "updated");
+
+    out << "  Workflow C Summary: " << summary.passed << '/' << summary.total
+        << " passed, " << summary.failed << " failed.\n";
+    return summary;
+}
+
+TestSummary runWorkflowD(std::ostream &out) {
+    out << "\n Workflow D: explicit mismatch checks during a real flow\n";
+    TestSummary summary;
+
+    FlexNode node;
+    recordStep(summary, out, "D1 addDouble succeeds", node.addDouble(3.25));
+    recordStep(summary, out, "D2 asDouble succeeds", node.asDouble() == 3.25);
+    recordRuntimeThrow(summary, out, "D3 asInt throws during DOUBLE flow", [&node]() { (void)node.asInt(); });
+    recordStep(summary, out, "D4 clear succeeds", node.clear());
+    recordStep(summary, out, "D5 addInt succeeds after clear", node.addInt(42));
+    recordRuntimeThrow(summary, out, "D6 asString throws during INT flow", [&node]() { (void)node.asString(); });
+
+    out << "  Workflow D Summary: " << summary.passed << '/' << summary.total
+        << " passed, " << summary.failed << " failed.\n";
+    return summary;
+}
+
+TestSummary runWorkflowTests(std::ostream &out) {
+    out << "\n[Workflow Tests]\n";
+
+    const TestSummary workflowA = runWorkflowA(out);
+    const TestSummary workflowB = runWorkflowB(out);
+    const TestSummary workflowC = runWorkflowC(out);
+    const TestSummary workflowD = runWorkflowD(out);
+
+    const TestSummary total = combine(
+        combine(workflowA, workflowB),
+        combine(workflowC, workflowD)
+    );
+
+    out << "  Workflow Summary: " << total.passed << '/' << total.total
+        << " passed, " << total.failed << " failed.\n";
+    return total;
+}

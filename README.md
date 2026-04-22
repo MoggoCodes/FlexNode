@@ -13,7 +13,8 @@ The project includes:
 
 - A static library target: `flexnode_lib`
 - An interactive terminal UI executable: `flexnode`
-- A test executable target scaffold: `flexnode_tests`
+- A shared test module in `testing/`
+- A test executable target: `flexnode_tests`
 
 ## How FlexNode Works
 
@@ -70,13 +71,38 @@ On each loop, the TUI always prints the current node state first, then shows a d
 ### Menu When Node Is Empty
 
 - `1. Initialize node`
+- `2. Run tests`
 - `0. Exit`
 
 ### Menu When Node Is Initialized
 
 - `1. Modify node` (same type only)
 - `2. Clear node`
+- `3. Run tests`
 - `0. Exit`
+
+## Run Tests
+
+The project has two test suites in `testing/`:
+
+- Comprehensive unit tests
+- Full workflow tests (step-by-step scenarios)
+
+You can run them either from the TUI menu (`Run tests`) or directly:
+
+```bash
+./build/flexnode_tests
+```
+
+When you choose `Run tests` in the TUI, you get this submenu:
+
+- `1. Run all tests`
+- `2. Comprehensive unit tests`
+- `3. Workflow A: Numeric Lifecycle`
+- `4. Workflow B: Text and Boolean Lifecycle`
+- `5. Workflow C: Copy and Assignment Lifecycle`
+- `6. Workflow D: Mismatch Handling Lifecycle`
+- `0. Back`
 
 ## TUI Input Notes
 

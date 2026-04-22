@@ -1,4 +1,5 @@
 #include "FlexNode.h"
+#include "FlexNodeTests.h"
 
 #include <algorithm>
 #include <cctype>
@@ -257,6 +258,63 @@ void clearNode(FlexNode &node, const std::string &label) {
     }
 }
 
+void printTestResult(const TestSummary &summary) {
+    if (summary.failed == 0) {
+        std::cout << "Selected tests passed.\n";
+    } else {
+        std::cout << "Selected tests reported failures.\n";
+    }
+}
+
+void printTestMenu() {
+    std::cout << "\nRun Tests\n";
+    std::cout << "---------\n";
+    std::cout << "1. Run all tests\n";
+    std::cout << "2. Comprehensive unit tests\n";
+    std::cout << "3. Workflow A: Numeric Lifecycle\n";
+    std::cout << "4. Workflow B: Text and Boolean Lifecycle\n";
+    std::cout << "5. Workflow C: Copy and Assignment Lifecycle\n";
+    std::cout << "6. Workflow D: Mismatch Handling Lifecycle\n";
+    std::cout << "0. Back\n";
+}
+
+bool runTestsMenu() {
+    while (true) {
+        printTestMenu();
+
+        int choice = -1;
+        if (!readIntInput("Select test option: ", choice)) {
+            return false;
+        }
+
+        switch (choice) {
+            case 1:
+                printTestResult(runAllFlexNodeTests(std::cout));
+                break;
+            case 2:
+                printTestResult(runComprehensiveUnitTests(std::cout));
+                break;
+            case 3:
+                printTestResult(runWorkflowA(std::cout));
+                break;
+            case 4:
+                printTestResult(runWorkflowB(std::cout));
+                break;
+            case 5:
+                printTestResult(runWorkflowC(std::cout));
+                break;
+            case 6:
+                printTestResult(runWorkflowD(std::cout));
+                break;
+            case 0:
+                return true;
+            default:
+                std::cout << "Unknown test menu choice.\n";
+                break;
+        }
+    }
+}
+
 void printMenu(const FlexNode &node) {
     std::cout << "\nCurrent Node State\n";
     std::cout << "------------------\n";
@@ -266,9 +324,11 @@ void printMenu(const FlexNode &node) {
     std::cout << "------------\n";
     if (node.isEmpty()) {
         std::cout << "1. Initialize node\n";
+        std::cout << "2. Run tests\n";
     } else {
         std::cout << "1. Modify node\n";
         std::cout << "2. Clear node\n";
+        std::cout << "3. Run tests\n";
     }
     std::cout << "0. Exit\n";
 }
@@ -298,6 +358,12 @@ int main() {
                         return EXIT_SUCCESS;
                     }
                     break;
+                case 2:
+                    if (!runTestsMenu()) {
+                        std::cout << "\nInput closed. Exiting.\n";
+                        return EXIT_SUCCESS;
+                    }
+                    break;
                 case 0:
                     std::cout << "Exiting FlexNode TUI.\n";
                     return EXIT_SUCCESS;
@@ -317,6 +383,12 @@ int main() {
                 break;
             case 2:
                 clearNode(node, "Node");
+                break;
+            case 3:
+                if (!runTestsMenu()) {
+                    std::cout << "\nInput closed. Exiting.\n";
+                    return EXIT_SUCCESS;
+                }
                 break;
             case 0:
                 std::cout << "Exiting FlexNode TUI.\n";

@@ -15,13 +15,29 @@ target_include_directories(flexnode_lib
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+add_library(flexnode_testing
+    testing/FlexNodeTestRunner.cpp
+    testing/FlexNodeUnitTests.cpp
+    testing/FlexNodeWorkflowTests.cpp
+)
+
+target_include_directories(flexnode_testing
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/testing
+)
+
+target_link_libraries(flexnode_testing
+    PUBLIC
+        flexnode_lib
+)
+
 add_executable(flexnode
     tui/tui.cpp
 )
 
 target_link_libraries(flexnode
     PRIVATE
-        flexnode_lib
+        flexnode_testing
 )
 
 add_executable(flexnode_tests
@@ -30,5 +46,5 @@ add_executable(flexnode_tests
 
 target_link_libraries(flexnode_tests
     PRIVATE
-        flexnode_lib
+        flexnode_testing
 )
