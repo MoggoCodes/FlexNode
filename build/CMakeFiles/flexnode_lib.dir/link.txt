@@ -1,0 +1,2 @@
+/usr/bin/ar qc libflexnode_lib.a CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o
+/usr/bin/ranlib libflexnode_lib.a

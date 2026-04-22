@@ -30,33 +30,35 @@ private:
 public:
     //*Constructors (Default & Copy)
     FlexNode() {type = Type::UNINITIALIZED;}
-    FlexNode(FlexNode &flexNode);
+    FlexNode(const FlexNode &flexNode);
 
     //*MetaData Accessors
-    bool isEmpty() {return !containsData;}
-    Type getType() {return type;}
+    [[nodiscard]] bool isEmpty() const {return !containsData;}
+    [[nodiscard]] Type getType() const {return type;}
 
     //*Initialize
-    bool addInt(int intToAdd);
-    bool addDouble(double doubleToAdd);
-    bool addChar(char charToAdd);
-    bool addString(std::string strToAdd);
-    bool addBool(bool boolToAdd);
+    bool addInt(const int &intToAdd);
+    bool addDouble(const double &doubleToAdd);
+    bool addChar(const char &charToAdd);
+    bool addString(const std::string &strToAdd);
+    bool addBool(const bool &boolToAdd);
 
     //*Uninitialize
     bool clear() {return resetNode();}
 
     //*Modify
-    bool changeInt(int newInt);
-    bool changeDouble(double newDbl);
-    bool changeChar(char newChar);
-    bool changeString(std::string newStr);
-    bool changeBool(bool newBool);
+    bool changeInt(const int &newInt);
+    bool changeDouble(const double &newDbl);
+    bool changeChar(const char &newChar);
+    bool changeString(const std::string &newStr);
+    bool changeBool(const bool &newBool);
 
     //*Overloaded Operators
-    //! FlexNode& operator=(const FlexNode &rhs);
-    std::ostream& print(std::ostream& out);
+    FlexNode& operator=(const FlexNode &rhs);
+    std::ostream& print(std::ostream& out) const;
 
     //*Destructor
     ~FlexNode();
 };
+
+std::ostream& operator<<(std::ostream& out, const FlexNode &flexNode);
