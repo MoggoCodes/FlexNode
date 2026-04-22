@@ -49,16 +49,18 @@ TestSummary runWorkflowA(std::ostream &out) {
     recordStep(summary, out, "A1 node starts empty", node.isEmpty());
     recordStep(summary, out, "A2 addInt succeeds", node.addInt(1));
     recordStep(summary, out, "A3 asInt reads 1", node.asInt() == 1);
-    recordStep(summary, out, "A4 changeInt to 2 succeeds", node.changeInt(2));
-    recordStep(summary, out, "A5 asInt reads 2", node.asInt() == 2);
-    recordStep(summary, out, "A6 clear succeeds", node.clear());
-    recordStep(summary, out, "A7 addDouble succeeds after clear", node.addDouble(5));
-    recordStep(summary, out, "A8 asDouble reads 5.0", node.asDouble() == 5.0);
+    recordStep(summary, out, "A4 asDouble casts INT value to 1.0", node.asDouble() == 1.0);
+    recordStep(summary, out, "A5 changeInt to 2 succeeds", node.changeInt(2));
+    recordStep(summary, out, "A6 asInt reads 2", node.asInt() == 2);
+    recordStep(summary, out, "A7 asDouble casts INT value to 2.0", node.asDouble() == 2.0);
+    recordStep(summary, out, "A8 clear succeeds", node.clear());
+    recordStep(summary, out, "A9 addDouble succeeds after clear", node.addDouble(5));
+    recordStep(summary, out, "A10 asDouble reads 5.0", node.asDouble() == 5.0);
     std::ostringstream formatted;
     formatted << node;
-    recordStep(summary, out, "A9 double output remains 5.0", formatted.str() == "5.0");
-    recordStep(summary, out, "A10 changeDouble to 8.5 succeeds", node.changeDouble(8.5));
-    recordStep(summary, out, "A11 asDouble reads 8.5", node.asDouble() == 8.5);
+    recordStep(summary, out, "A11 double output remains 5.0", formatted.str() == "5.0");
+    recordStep(summary, out, "A12 changeDouble to 8.5 succeeds", node.changeDouble(8.5));
+    recordStep(summary, out, "A13 asDouble reads 8.5", node.asDouble() == 8.5);
 
     out << "  Workflow A Summary: " << summary.passed << '/' << summary.total
         << " passed, " << summary.failed << " failed.\n";
@@ -71,22 +73,23 @@ TestSummary runWorkflowB(std::ostream &out) {
 
     FlexNode node;
     recordStep(summary, out, "B1 addChar succeeds", node.addChar('x'));
+    recordStep(summary, out, "B2 asString casts CHAR value", node.asString() == "x");
     std::ostringstream charOut;
     charOut << node;
-    recordStep(summary, out, "B2 char output is quoted", charOut.str() == "'x'");
-    recordStep(summary, out, "B3 clear succeeds", node.clear());
-    recordStep(summary, out, "B4 addString succeeds", node.addString("hello"));
-    recordStep(summary, out, "B5 asString reads hello", node.asString() == "hello");
-    recordStep(summary, out, "B6 changeString to world succeeds", node.changeString("world"));
-    recordStep(summary, out, "B7 asString reads world", node.asString() == "world");
+    recordStep(summary, out, "B3 char output is quoted", charOut.str() == "'x'");
+    recordStep(summary, out, "B4 clear succeeds", node.clear());
+    recordStep(summary, out, "B5 addString succeeds", node.addString("hello"));
+    recordStep(summary, out, "B6 asString reads hello", node.asString() == "hello");
+    recordStep(summary, out, "B7 changeString to world succeeds", node.changeString("world"));
+    recordStep(summary, out, "B8 asString reads world", node.asString() == "world");
     std::ostringstream stringOut;
     stringOut << node;
-    recordStep(summary, out, "B8 string output is quoted", stringOut.str() == "\"world\"");
-    recordStep(summary, out, "B9 clear succeeds again", node.clear());
-    recordStep(summary, out, "B10 addBool succeeds", node.addBool(true));
-    recordStep(summary, out, "B11 asBool reads true", node.asBool());
-    recordStep(summary, out, "B12 changeBool to false succeeds", node.changeBool(false));
-    recordStep(summary, out, "B13 asBool reads false", !node.asBool());
+    recordStep(summary, out, "B9 string output is quoted", stringOut.str() == "\"world\"");
+    recordStep(summary, out, "B10 clear succeeds again", node.clear());
+    recordStep(summary, out, "B11 addBool succeeds", node.addBool(true));
+    recordStep(summary, out, "B12 asBool reads true", node.asBool());
+    recordStep(summary, out, "B13 changeBool to false succeeds", node.changeBool(false));
+    recordStep(summary, out, "B14 asBool reads false", !node.asBool());
 
     out << "  Workflow B Summary: " << summary.passed << '/' << summary.total
         << " passed, " << summary.failed << " failed.\n";

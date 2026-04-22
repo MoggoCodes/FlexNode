@@ -147,7 +147,15 @@ int FlexNode::asInt() const {
 }
 
 double FlexNode::asDouble() const {
-    if (type != Type::DOUBLE) {throwTypeMismatch(Type::DOUBLE, type);}
+    if (type == Type::INT) {
+        if (num == nullptr) {throw std::runtime_error("FlexNode internal error: INT storage is null.");}
+        return static_cast<double>(*num);
+    }
+    if (type != Type::DOUBLE) {
+        throw std::runtime_error(
+            "FlexNode type mismatch. Expected DOUBLE or INT, got " + std::string(typeName(type)) + '.'
+        );
+    }
     if (dbl == nullptr) {throw std::runtime_error("FlexNode internal error: DOUBLE storage is null.");}
     return *dbl;
 }
@@ -159,7 +167,15 @@ char FlexNode::asChar() const {
 }
 
 std::string FlexNode::asString() const {
-    if (type != Type::STRING) {throwTypeMismatch(Type::STRING, type);}
+    if (type == Type::CHAR) {
+        if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: CHAR storage is null.");}
+        return std::string(1, *ch);
+    }
+    if (type != Type::STRING) {
+        throw std::runtime_error(
+            "FlexNode type mismatch. Expected STRING or CHAR, got " + std::string(typeName(type)) + '.'
+        );
+    }
     if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: STRING storage is null.");}
     return {ch};
 }

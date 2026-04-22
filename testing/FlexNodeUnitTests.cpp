@@ -51,8 +51,8 @@ TestSummary runComprehensiveUnitTests(std::ostream &out) {
         recordCheck(summary, out, "addDouble fails on initialized node", !node.addDouble(2.5));
         recordCheck(summary, out, "changeInt succeeds when type matches", node.changeInt(11));
         recordCheck(summary, out, "changed int value is readable", node.asInt() == 11);
+        recordCheck(summary, out, "asDouble casts INT value", node.asDouble() == 11.0);
         recordCheck(summary, out, "changeDouble fails when type mismatches", !node.changeDouble(3.0));
-        recordRuntimeThrow(summary, out, "asDouble throws when current type is INT", [&node]() { (void)node.asDouble(); });
         recordCheck(summary, out, "clear succeeds on initialized node", node.clear());
         recordCheck(summary, out, "type resets to UNINITIALIZED after clear", node.getType() == Type::UNINITIALIZED);
         recordCheck(summary, out, "clear fails on already-empty node", !node.clear());
@@ -71,6 +71,7 @@ TestSummary runComprehensiveUnitTests(std::ostream &out) {
         FlexNode node;
         recordCheck(summary, out, "addChar succeeds", node.addChar('1'));
         recordCheck(summary, out, "asChar returns stored char", node.asChar() == '1');
+        recordCheck(summary, out, "asString casts CHAR value", node.asString() == "1");
         std::ostringstream formatted;
         formatted << node;
         recordCheck(summary, out, "char output is single-quoted", formatted.str() == "'1'");

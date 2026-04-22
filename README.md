@@ -38,6 +38,12 @@ Metadata access:
 - `isEmpty()`
 - `getType()`
 
+Accessor casting rules:
+
+- `asDouble()` works for both `DOUBLE` and `INT` (int is cast to double)
+- `asString()` works for both `STRING` and `CHAR` (char is cast to 1-character string)
+- Other mismatched `as*()` calls throw `std::runtime_error`
+
 Additional behaviors:
 
 - Copy constructor and assignment operator perform deep copy semantics.
