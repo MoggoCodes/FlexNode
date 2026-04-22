@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/moggo/Projects/FlexNode/tui.cpp" "CMakeFiles/flexnode.dir/tui.cpp.o" "gcc" "CMakeFiles/flexnode.dir/tui.cpp.o.d"
+  "/Users/moggo/Projects/FlexNode/tui/tui.cpp" "CMakeFiles/flexnode.dir/tui/tui.cpp.o" "gcc" "CMakeFiles/flexnode.dir/tui/tui.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

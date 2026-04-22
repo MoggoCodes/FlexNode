@@ -1,1 +1,1 @@
-/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/flexnode.dir/tui.cpp.o -o flexnode  libflexnode_lib.a
+/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/flexnode.dir/tui/tui.cpp.o -o flexnode  libflexnode_lib.a

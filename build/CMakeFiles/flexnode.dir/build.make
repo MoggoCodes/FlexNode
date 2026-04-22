@@ -72,28 +72,28 @@ include CMakeFiles/flexnode.dir/flags.make
 CMakeFiles/flexnode.dir/codegen:
 .PHONY : CMakeFiles/flexnode.dir/codegen
 
-CMakeFiles/flexnode.dir/tui.cpp.o: CMakeFiles/flexnode.dir/flags.make
-CMakeFiles/flexnode.dir/tui.cpp.o: /Users/moggo/Projects/FlexNode/tui.cpp
-CMakeFiles/flexnode.dir/tui.cpp.o: CMakeFiles/flexnode.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/moggo/Projects/FlexNode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/flexnode.dir/tui.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/flexnode.dir/tui.cpp.o -MF CMakeFiles/flexnode.dir/tui.cpp.o.d -o CMakeFiles/flexnode.dir/tui.cpp.o -c /Users/moggo/Projects/FlexNode/tui.cpp
+CMakeFiles/flexnode.dir/tui/tui.cpp.o: CMakeFiles/flexnode.dir/flags.make
+CMakeFiles/flexnode.dir/tui/tui.cpp.o: /Users/moggo/Projects/FlexNode/tui/tui.cpp
+CMakeFiles/flexnode.dir/tui/tui.cpp.o: CMakeFiles/flexnode.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/moggo/Projects/FlexNode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/flexnode.dir/tui/tui.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/flexnode.dir/tui/tui.cpp.o -MF CMakeFiles/flexnode.dir/tui/tui.cpp.o.d -o CMakeFiles/flexnode.dir/tui/tui.cpp.o -c /Users/moggo/Projects/FlexNode/tui/tui.cpp
 
-CMakeFiles/flexnode.dir/tui.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/flexnode.dir/tui.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/moggo/Projects/FlexNode/tui.cpp > CMakeFiles/flexnode.dir/tui.cpp.i
+CMakeFiles/flexnode.dir/tui/tui.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/flexnode.dir/tui/tui.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/moggo/Projects/FlexNode/tui/tui.cpp > CMakeFiles/flexnode.dir/tui/tui.cpp.i
 
-CMakeFiles/flexnode.dir/tui.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/flexnode.dir/tui.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/moggo/Projects/FlexNode/tui.cpp -o CMakeFiles/flexnode.dir/tui.cpp.s
+CMakeFiles/flexnode.dir/tui/tui.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/flexnode.dir/tui/tui.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/moggo/Projects/FlexNode/tui/tui.cpp -o CMakeFiles/flexnode.dir/tui/tui.cpp.s
 
 # Object files for target flexnode
 flexnode_OBJECTS = \
-"CMakeFiles/flexnode.dir/tui.cpp.o"
+"CMakeFiles/flexnode.dir/tui/tui.cpp.o"
 
 # External object files for target flexnode
 flexnode_EXTERNAL_OBJECTS =
 
-flexnode: CMakeFiles/flexnode.dir/tui.cpp.o
+flexnode: CMakeFiles/flexnode.dir/tui/tui.cpp.o
 flexnode: CMakeFiles/flexnode.dir/build.make
 flexnode: libflexnode_lib.a
 flexnode: CMakeFiles/flexnode.dir/link.txt

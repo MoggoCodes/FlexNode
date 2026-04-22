@@ -155,77 +155,77 @@ flexnode_tests/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/build
 .PHONY : flexnode_tests/fast
 
-FlexNode.o: FlexNode.cpp.o
-.PHONY : FlexNode.o
+src/FlexNode.o: src/FlexNode.cpp.o
+.PHONY : src/FlexNode.o
 
 # target to build an object file
-FlexNode.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_lib.dir/build.make CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o
-.PHONY : FlexNode.cpp.o
+src/FlexNode.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_lib.dir/build.make CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o
+.PHONY : src/FlexNode.cpp.o
 
-FlexNode.i: FlexNode.cpp.i
-.PHONY : FlexNode.i
+src/FlexNode.i: src/FlexNode.cpp.i
+.PHONY : src/FlexNode.i
 
 # target to preprocess a source file
-FlexNode.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_lib.dir/build.make CMakeFiles/flexnode_lib.dir/FlexNode.cpp.i
-.PHONY : FlexNode.cpp.i
+src/FlexNode.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_lib.dir/build.make CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.i
+.PHONY : src/FlexNode.cpp.i
 
-FlexNode.s: FlexNode.cpp.s
-.PHONY : FlexNode.s
+src/FlexNode.s: src/FlexNode.cpp.s
+.PHONY : src/FlexNode.s
 
 # target to generate assembly for a file
-FlexNode.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_lib.dir/build.make CMakeFiles/flexnode_lib.dir/FlexNode.cpp.s
-.PHONY : FlexNode.cpp.s
+src/FlexNode.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_lib.dir/build.make CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.s
+.PHONY : src/FlexNode.cpp.s
 
-Tests.o: Tests.cpp.o
-.PHONY : Tests.o
+tui/Tests.o: tui/Tests.cpp.o
+.PHONY : tui/Tests.o
 
 # target to build an object file
-Tests.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/Tests.cpp.o
-.PHONY : Tests.cpp.o
+tui/Tests.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/tui/Tests.cpp.o
+.PHONY : tui/Tests.cpp.o
 
-Tests.i: Tests.cpp.i
-.PHONY : Tests.i
+tui/Tests.i: tui/Tests.cpp.i
+.PHONY : tui/Tests.i
 
 # target to preprocess a source file
-Tests.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/Tests.cpp.i
-.PHONY : Tests.cpp.i
+tui/Tests.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/tui/Tests.cpp.i
+.PHONY : tui/Tests.cpp.i
 
-Tests.s: Tests.cpp.s
-.PHONY : Tests.s
+tui/Tests.s: tui/Tests.cpp.s
+.PHONY : tui/Tests.s
 
 # target to generate assembly for a file
-Tests.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/Tests.cpp.s
-.PHONY : Tests.cpp.s
+tui/Tests.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode_tests.dir/build.make CMakeFiles/flexnode_tests.dir/tui/Tests.cpp.s
+.PHONY : tui/Tests.cpp.s
 
-tui.o: tui.cpp.o
-.PHONY : tui.o
+tui/tui.o: tui/tui.cpp.o
+.PHONY : tui/tui.o
 
 # target to build an object file
-tui.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode.dir/build.make CMakeFiles/flexnode.dir/tui.cpp.o
-.PHONY : tui.cpp.o
+tui/tui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode.dir/build.make CMakeFiles/flexnode.dir/tui/tui.cpp.o
+.PHONY : tui/tui.cpp.o
 
-tui.i: tui.cpp.i
-.PHONY : tui.i
+tui/tui.i: tui/tui.cpp.i
+.PHONY : tui/tui.i
 
 # target to preprocess a source file
-tui.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode.dir/build.make CMakeFiles/flexnode.dir/tui.cpp.i
-.PHONY : tui.cpp.i
+tui/tui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode.dir/build.make CMakeFiles/flexnode.dir/tui/tui.cpp.i
+.PHONY : tui/tui.cpp.i
 
-tui.s: tui.cpp.s
-.PHONY : tui.s
+tui/tui.s: tui/tui.cpp.s
+.PHONY : tui/tui.s
 
 # target to generate assembly for a file
-tui.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode.dir/build.make CMakeFiles/flexnode.dir/tui.cpp.s
-.PHONY : tui.cpp.s
+tui/tui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/flexnode.dir/build.make CMakeFiles/flexnode.dir/tui/tui.cpp.s
+.PHONY : tui/tui.cpp.s
 
 # Help Target
 help:
@@ -238,15 +238,15 @@ help:
 	@echo "... flexnode"
 	@echo "... flexnode_lib"
 	@echo "... flexnode_tests"
-	@echo "... FlexNode.o"
-	@echo "... FlexNode.i"
-	@echo "... FlexNode.s"
-	@echo "... Tests.o"
-	@echo "... Tests.i"
-	@echo "... Tests.s"
-	@echo "... tui.o"
-	@echo "... tui.i"
-	@echo "... tui.s"
+	@echo "... src/FlexNode.o"
+	@echo "... src/FlexNode.i"
+	@echo "... src/FlexNode.s"
+	@echo "... tui/Tests.o"
+	@echo "... tui/Tests.i"
+	@echo "... tui/Tests.s"
+	@echo "... tui/tui.o"
+	@echo "... tui/tui.i"
+	@echo "... tui/tui.s"
 .PHONY : help
 
 

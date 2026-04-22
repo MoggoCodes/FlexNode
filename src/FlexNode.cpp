@@ -1,16 +1,38 @@
 #include "FlexNode.h"
 
 #include <sstream>
+#include <stdexcept>
+
+namespace {
+
+const char* typeName(const Type type) {
+    switch (type) {
+        case Type::INT: return "INT";
+        case Type::DOUBLE: return "DOUBLE";
+        case Type::CHAR: return "CHAR";
+        case Type::STRING: return "STRING";
+        case Type::BOOL: return "BOOL";
+        default: return "UNINITIALIZED";
+    }
+}
+
+[[noreturn]] void throwTypeMismatch(const Type expected, const Type actual) {
+    throw std::runtime_error(
+        "FlexNode type mismatch. Expected " + std::string(typeName(expected)) +
+        ", got " + std::string(typeName(actual)) + '.'
+    );
+}
+
+} // namespace
 
 bool FlexNode::setNode(const Type newType) {
-    if(containsData) {return false;}
-    containsData = true;
+    if(type != Type::UNINITIALIZED || newType == Type::UNINITIALIZED) {return false;}
     type = newType;
     return true;
 }
 
 bool FlexNode::resetNode() {
-    if(!containsData) {return false;}
+    if(type == Type::UNINITIALIZED) {return false;}
     
     switch(type) {
         case Type::INT: delete num; num = nullptr; break;
@@ -22,17 +44,16 @@ bool FlexNode::resetNode() {
     }
     
     type = Type::UNINITIALIZED;
-    containsData = false;
     return true;
 }
 
-FlexNode::FlexNode(const FlexNode &flexNode) {
+FlexNode::FlexNode(const FlexNode &flexNode) : type(Type::UNINITIALIZED) {
     switch(flexNode.type) {
-        case Type::INT: addInt(*flexNode.num); break;
-        case Type::DOUBLE: addDouble(*flexNode.dbl); break;
-        case Type::CHAR: addChar(*flexNode.ch); break;
-        case Type::STRING: addString(flexNode.ch != nullptr ? flexNode.ch : ""); break;
-        case Type::BOOL: addBool(*flexNode.boo); break;
+        case Type::INT: addInt(flexNode.asInt()); break;
+        case Type::DOUBLE: addDouble(flexNode.asDouble()); break;
+        case Type::CHAR: addChar(flexNode.asChar()); break;
+        case Type::STRING: addString(flexNode.asString()); break;
+        case Type::BOOL: addBool(flexNode.asBool()); break;
         default: break;
     }
 }
@@ -119,12 +140,42 @@ bool FlexNode::changeBool(const bool &newBool) {
     return addBool(newBool);
 }
 
+int FlexNode::asInt() const {
+    if (type != Type::INT) {throwTypeMismatch(Type::INT, type);}
+    if (num == nullptr) {throw std::runtime_error("FlexNode internal error: INT storage is null.");}
+    return *num;
+}
+
+double FlexNode::asDouble() const {
+    if (type != Type::DOUBLE) {throwTypeMismatch(Type::DOUBLE, type);}
+    if (dbl == nullptr) {throw std::runtime_error("FlexNode internal error: DOUBLE storage is null.");}
+    return *dbl;
+}
+
+char FlexNode::asChar() const {
+    if (type != Type::CHAR) {throwTypeMismatch(Type::CHAR, type);}
+    if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: CHAR storage is null.");}
+    return *ch;
+}
+
+std::string FlexNode::asString() const {
+    if (type != Type::STRING) {throwTypeMismatch(Type::STRING, type);}
+    if (ch == nullptr) {throw std::runtime_error("FlexNode internal error: STRING storage is null.");}
+    return {ch};
+}
+
+bool FlexNode::asBool() const {
+    if (type != Type::BOOL) {throwTypeMismatch(Type::BOOL, type);}
+    if (boo == nullptr) {throw std::runtime_error("FlexNode internal error: BOOL storage is null.");}
+    return *boo;
+}
+
 std::ostream &FlexNode::print(std::ostream &out) const {
     switch(type) {
-        case Type::INT: return out << *num; break;
+        case Type::INT: return out << this->asInt();
         case Type::DOUBLE: {
             std::ostringstream formatted;
-            formatted << *dbl;
+            formatted << this->asDouble();
             std::string text = formatted.str();
             if (text.find('.') == std::string::npos &&
                 text.find('e') == std::string::npos &&
@@ -133,9 +184,9 @@ std::ostream &FlexNode::print(std::ostream &out) const {
             }
             return out << text;
         }
-        case Type::CHAR: return out << '\'' << *ch << '\''; break;
-        case Type::STRING: return out << '"' << (ch != nullptr ? ch : "") << '"'; break;
-        case Type::BOOL: return out << *boo; break;
+        case Type::CHAR: return out << '\'' << this->asChar() << '\'';
+        case Type::STRING: return out << '"' << this->asString() << '"';
+        case Type::BOOL: return out << this->asBool();
         default: return out;
     }
 }

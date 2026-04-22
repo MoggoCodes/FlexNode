@@ -1,1 +1,1 @@
-/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/flexnode_tests.dir/Tests.cpp.o -o flexnode_tests  libflexnode_lib.a
+/usr/bin/c++ -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/flexnode_tests.dir/tui/Tests.cpp.o -o flexnode_tests  libflexnode_lib.a

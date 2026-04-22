@@ -7,16 +7,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(flexnode_lib
-    FlexNode.cpp
+    src/FlexNode.cpp
 )
 
 target_include_directories(flexnode_lib
     PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 add_executable(flexnode
-    tui.cpp
+    tui/tui.cpp
 )
 
 target_link_libraries(flexnode
@@ -25,7 +25,7 @@ target_link_libraries(flexnode
 )
 
 add_executable(flexnode_tests
-    Tests.cpp
+    tui/Tests.cpp
 )
 
 target_link_libraries(flexnode_tests

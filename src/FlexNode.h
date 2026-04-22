@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <iostream>
+#include <string>
 /*
 todo Define Big 3
 todo define accessors to dereference member pointers and return value
@@ -13,7 +13,6 @@ enum class Type {UNINITIALIZED, INT, DOUBLE, CHAR, STRING, BOOL};
 class FlexNode {
 private:
     //*MetaData
-    bool containsData = false;
     Type type = Type::UNINITIALIZED;
 
     //* Private Data
@@ -29,12 +28,18 @@ private:
 
 public:
     //*Constructors (Default & Copy)
-    FlexNode() {type = Type::UNINITIALIZED;}
+    FlexNode() = default;
     FlexNode(const FlexNode &flexNode);
 
     //*MetaData Accessors
-    [[nodiscard]] bool isEmpty() const {return !containsData;}
+    [[nodiscard]] bool isEmpty() const {return type == Type::UNINITIALIZED;}
+    [[nodiscard]] bool is(const Type checkType) const {return type == checkType;}
     [[nodiscard]] Type getType() const {return type;}
+    [[nodiscard]] int asInt() const;
+    [[nodiscard]] double asDouble() const;
+    [[nodiscard]] char asChar() const;
+    [[nodiscard]] std::string asString() const;
+    [[nodiscard]] bool asBool() const;
 
     //*Initialize
     bool addInt(const int &intToAdd);

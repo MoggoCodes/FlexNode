@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/flexnode_tests.dir/Tests.cpp.o"
-  "CMakeFiles/flexnode_tests.dir/Tests.cpp.o.d"
+  "CMakeFiles/flexnode_tests.dir/tui/Tests.cpp.o"
+  "CMakeFiles/flexnode_tests.dir/tui/Tests.cpp.o.d"
   "flexnode_tests"
   "flexnode_tests.pdb"
 )

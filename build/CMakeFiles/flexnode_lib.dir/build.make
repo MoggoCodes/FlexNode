@@ -72,28 +72,28 @@ include CMakeFiles/flexnode_lib.dir/flags.make
 CMakeFiles/flexnode_lib.dir/codegen:
 .PHONY : CMakeFiles/flexnode_lib.dir/codegen
 
-CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o: CMakeFiles/flexnode_lib.dir/flags.make
-CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o: /Users/moggo/Projects/FlexNode/FlexNode.cpp
-CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o: CMakeFiles/flexnode_lib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/moggo/Projects/FlexNode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o -MF CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o.d -o CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o -c /Users/moggo/Projects/FlexNode/FlexNode.cpp
+CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o: CMakeFiles/flexnode_lib.dir/flags.make
+CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o: /Users/moggo/Projects/FlexNode/src/FlexNode.cpp
+CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o: CMakeFiles/flexnode_lib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/moggo/Projects/FlexNode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o -MF CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o.d -o CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o -c /Users/moggo/Projects/FlexNode/src/FlexNode.cpp
 
-CMakeFiles/flexnode_lib.dir/FlexNode.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/flexnode_lib.dir/FlexNode.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/moggo/Projects/FlexNode/FlexNode.cpp > CMakeFiles/flexnode_lib.dir/FlexNode.cpp.i
+CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/moggo/Projects/FlexNode/src/FlexNode.cpp > CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.i
 
-CMakeFiles/flexnode_lib.dir/FlexNode.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/flexnode_lib.dir/FlexNode.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/moggo/Projects/FlexNode/FlexNode.cpp -o CMakeFiles/flexnode_lib.dir/FlexNode.cpp.s
+CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/moggo/Projects/FlexNode/src/FlexNode.cpp -o CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.s
 
 # Object files for target flexnode_lib
 flexnode_lib_OBJECTS = \
-"CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o"
+"CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o"
 
 # External object files for target flexnode_lib
 flexnode_lib_EXTERNAL_OBJECTS =
 
-libflexnode_lib.a: CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o
+libflexnode_lib.a: CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o
 libflexnode_lib.a: CMakeFiles/flexnode_lib.dir/build.make
 libflexnode_lib.a: CMakeFiles/flexnode_lib.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/moggo/Projects/FlexNode/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX static library libflexnode_lib.a"

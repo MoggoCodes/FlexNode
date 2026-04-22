@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/moggo/Projects/FlexNode
+CXX_INCLUDES = -I/Users/moggo/Projects/FlexNode/src
 
 CXX_FLAGS = -std=c++17
 

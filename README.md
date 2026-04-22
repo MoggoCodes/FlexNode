@@ -90,7 +90,7 @@ Invalid input prompts again for that field.
 
 ## API Surface (Quick Reference)
 
-Core declarations are in `FlexNode.h`, implementation in `FlexNode.cpp`.
+Core declarations are in `src/FlexNode.h`, implementation in `src/FlexNode.cpp`.
 
 Typical usage:
 

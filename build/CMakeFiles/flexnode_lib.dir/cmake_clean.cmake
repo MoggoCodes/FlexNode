@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o"
-  "CMakeFiles/flexnode_lib.dir/FlexNode.cpp.o.d"
+  "CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o"
+  "CMakeFiles/flexnode_lib.dir/src/FlexNode.cpp.o.d"
   "libflexnode_lib.a"
   "libflexnode_lib.pdb"
 )
