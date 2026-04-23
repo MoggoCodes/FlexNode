@@ -12,9 +12,8 @@ FlexNode is a small C++ value container that can hold exactly one value at a tim
 The project includes:
 
 - A static library target: `flexnode_lib`
-- An interactive terminal UI executable: `flexnode`
-- A shared test module in `testing/`
-- A test executable target: `flexnode_tests`
+- Optional interactive terminal UI executable: `flexnode`
+- Optional test executable target: `flexnode_tests`
 
 ## How FlexNode Works
 
@@ -64,10 +63,30 @@ From the project root:
 
 ```bash
 cmake -S . -B build
+cmake --build build --target flexnode_lib
+```
+
+This default configuration is optimized for library usage (only `flexnode_lib` is enabled).
+
+To enable optional executables:
+
+```bash
+cmake -S . -B build -DFLEXNODE_BUILD_TUI=ON -DFLEXNODE_BUILD_TESTS=ON
 cmake --build build
 ```
 
+To generate `tui.plist` inside the build folder:
+
+```bash
+cmake -S . -B build -DFLEXNODE_BUILD_TUI_PLIST=ON
+cmake --build build
+```
+
+Output path: `build/tui.plist`
+
 ## Run the TUI
+
+Build with `-DFLEXNODE_BUILD_TUI=ON`, then run:
 
 ```bash
 ./build/flexnode
@@ -95,7 +114,7 @@ The project has two test suites in `testing/`:
 - Comprehensive unit tests
 - Full workflow tests (step-by-step scenarios)
 
-You can run them either from the TUI menu (`Run tests`) or directly:
+Build with `-DFLEXNODE_BUILD_TESTS=ON`, then run directly:
 
 ```bash
 ./build/flexnode_tests
