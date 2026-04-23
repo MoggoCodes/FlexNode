@@ -25,7 +25,7 @@ const char* typeName(const Type type) {
 
 } // namespace
 
-bool FlexNode::setNode(const Type newType) {
+bool FlexNode::setType(const Type newType) const {
     return type == Type::UNINITIALIZED && newType != Type::UNINITIALIZED;
 }
 
@@ -74,38 +74,108 @@ FlexNode& FlexNode::operator=(const FlexNode &rhs) {
 }
 
 bool FlexNode::addInt(const int &intToAdd) {
-    if (!setNode(Type::INT)) {return false;}
+    if (!setType(Type::INT)) {return false;}
     new (storage) int(intToAdd);
     type = Type::INT;
     return true;
 }
 
 bool FlexNode::addDouble(const double &doubleToAdd) {
-    if (!setNode(Type::DOUBLE)) {return false;}
+    if (!setType(Type::DOUBLE)) {return false;}
     new (storage) double(doubleToAdd);
     type = Type::DOUBLE;
     return true;
 }
 
 bool FlexNode::addChar(const char &charToAdd) {
-    if (!setNode(Type::CHAR)) {return false;}
+    if (!setType(Type::CHAR)) {return false;}
     new (storage) char(charToAdd);
     type = Type::CHAR;
     return true;
 }
 
 bool FlexNode::addString(const std::string &strToAdd) {
-    if (!setNode(Type::STRING)) {return false;}
+    if (!setType(Type::STRING)) {return false;}
     new (storage) std::string(strToAdd);
     type = Type::STRING;
     return true;
 }
 
 bool FlexNode::addBool(const bool &boolToAdd) {
-    if (!setNode(Type::BOOL)) {return false;}
+    if (!setType(Type::BOOL)) {return false;}
     new (storage) bool(boolToAdd);
     type = Type::BOOL;
     return true;
+}
+
+bool FlexNode::setValue(const int &newInt, const SetPolicy policy) {
+    switch (type) {
+        case Type::UNINITIALIZED:
+            return addInt(newInt);
+        case Type::INT:
+            return changeInt(newInt);
+        default:
+            if (policy == SetPolicy::KeepType) {return false;}
+            if (!resetNode()) {return false;}
+            return addInt(newInt);
+    }
+}
+
+bool FlexNode::setValue(const double &newDbl, const SetPolicy policy) {
+    switch (type) {
+        case Type::UNINITIALIZED:
+            return addDouble(newDbl);
+        case Type::DOUBLE:
+            return changeDouble(newDbl);
+        default:
+            if (policy == SetPolicy::KeepType) {return false;}
+            if (!resetNode()) {return false;}
+            return addDouble(newDbl);
+    }
+}
+
+bool FlexNode::setValue(const char &newChar, const SetPolicy policy) {
+    switch (type) {
+        case Type::UNINITIALIZED:
+            return addChar(newChar);
+        case Type::CHAR:
+            return changeChar(newChar);
+        default:
+            if (policy == SetPolicy::KeepType) {return false;}
+            if (!resetNode()) {return false;}
+            return addChar(newChar);
+    }
+}
+
+bool FlexNode::setValue(const std::string &newStr, const SetPolicy policy) {
+    switch (type) {
+        case Type::UNINITIALIZED:
+            return addString(newStr);
+        case Type::STRING:
+            return changeString(newStr);
+        default:
+            if (policy == SetPolicy::KeepType) {return false;}
+            if (!resetNode()) {return false;}
+            return addString(newStr);
+    }
+}
+
+bool FlexNode::setValue(const char* newStr, const SetPolicy policy) {
+    if (newStr == nullptr) {return false;}
+    return setValue(std::string(newStr), policy);
+}
+
+bool FlexNode::setValue(const bool &newBool, const SetPolicy policy) {
+    switch (type) {
+        case Type::UNINITIALIZED:
+            return addBool(newBool);
+        case Type::BOOL:
+            return changeBool(newBool);
+        default:
+            if (policy == SetPolicy::KeepType) {return false;}
+            if (!resetNode()) {return false;}
+            return addBool(newBool);
+    }
 }
 
 bool FlexNode::changeInt(const int &newInt) {

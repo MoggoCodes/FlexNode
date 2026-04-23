@@ -205,7 +205,7 @@ bool modifyNode(FlexNode &node, const std::string &label) {
             if (!readIntInput("Enter new INT value: ", value)) {
                 return false;
             }
-            success = node.changeInt(value);
+            success = node.setValue(value, SetPolicy::KeepType);
             break;
         }
         case Type::DOUBLE: {
@@ -213,7 +213,7 @@ bool modifyNode(FlexNode &node, const std::string &label) {
             if (!readDoubleInput("Enter new DOUBLE value: ", value)) {
                 return false;
             }
-            success = node.changeDouble(value);
+            success = node.setValue(value, SetPolicy::KeepType);
             break;
         }
         case Type::CHAR: {
@@ -221,7 +221,7 @@ bool modifyNode(FlexNode &node, const std::string &label) {
             if (!readCharInput("Enter new CHAR value: ", value)) {
                 return false;
             }
-            success = node.changeChar(value);
+            success = node.setValue(value, SetPolicy::KeepType);
             break;
         }
         case Type::STRING: {
@@ -229,7 +229,7 @@ bool modifyNode(FlexNode &node, const std::string &label) {
             if (!readLine("Enter new STRING value: ", value)) {
                 return false;
             }
-            success = node.changeString(value);
+            success = node.setValue(value, SetPolicy::KeepType);
             break;
         }
         case Type::BOOL: {
@@ -237,7 +237,7 @@ bool modifyNode(FlexNode &node, const std::string &label) {
             if (!readBoolInput("Enter new BOOL value: ", value)) {
                 return false;
             }
-            success = node.changeBool(value);
+            success = node.setValue(value, SetPolicy::KeepType);
             break;
         }
         default:

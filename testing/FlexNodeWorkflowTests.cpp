@@ -50,7 +50,7 @@ TestSummary runWorkflowA(std::ostream &out) {
     recordStep(summary, out, "A2 addInt succeeds", node.addInt(1));
     recordStep(summary, out, "A3 asInt reads 1", node.asInt() == 1);
     recordStep(summary, out, "A4 asDouble casts INT value to 1.0", node.asDouble() == 1.0);
-    recordStep(summary, out, "A5 changeInt to 2 succeeds", node.changeInt(2));
+    recordStep(summary, out, "A5 setValue(INT, KeepType) to 2 succeeds", node.setValue(2, SetPolicy::KeepType));
     recordStep(summary, out, "A6 asInt reads 2", node.asInt() == 2);
     recordStep(summary, out, "A7 asDouble casts INT value to 2.0", node.asDouble() == 2.0);
     recordStep(summary, out, "A8 clear succeeds", node.clear());
@@ -59,7 +59,7 @@ TestSummary runWorkflowA(std::ostream &out) {
     std::ostringstream formatted;
     formatted << node;
     recordStep(summary, out, "A11 double output remains 5.0", formatted.str() == "5.0");
-    recordStep(summary, out, "A12 changeDouble to 8.5 succeeds", node.changeDouble(8.5));
+    recordStep(summary, out, "A12 setValue(DOUBLE, KeepType) to 8.5 succeeds", node.setValue(8.5, SetPolicy::KeepType));
     recordStep(summary, out, "A13 asDouble reads 8.5", node.asDouble() == 8.5);
 
     out << "  Workflow A Summary: " << summary.passed << '/' << summary.total
@@ -80,7 +80,8 @@ TestSummary runWorkflowB(std::ostream &out) {
     recordStep(summary, out, "B4 clear succeeds", node.clear());
     recordStep(summary, out, "B5 addString succeeds", node.addString("hello"));
     recordStep(summary, out, "B6 asString reads hello", node.asString() == "hello");
-    recordStep(summary, out, "B7 changeString to world succeeds", node.changeString("world"));
+    recordStep(summary, out, "B7 setValue(STRING, KeepType) to world succeeds",
+               node.setValue("world", SetPolicy::KeepType));
     recordStep(summary, out, "B8 asString reads world", node.asString() == "world");
     std::ostringstream stringOut;
     stringOut << node;
@@ -88,7 +89,8 @@ TestSummary runWorkflowB(std::ostream &out) {
     recordStep(summary, out, "B10 clear succeeds again", node.clear());
     recordStep(summary, out, "B11 addBool succeeds", node.addBool(true));
     recordStep(summary, out, "B12 asBool reads true", node.asBool());
-    recordStep(summary, out, "B13 changeBool to false succeeds", node.changeBool(false));
+    recordStep(summary, out, "B13 setValue(BOOL, KeepType) to false succeeds",
+               node.setValue(false, SetPolicy::KeepType));
     recordStep(summary, out, "B14 asBool reads false", !node.asBool());
 
     out << "  Workflow B Summary: " << summary.passed << '/' << summary.total
@@ -106,7 +108,8 @@ TestSummary runWorkflowC(std::ostream &out) {
     FlexNode copied(source);
     recordStep(summary, out, "C2 copy constructor preserved root", copied.asString() == "root");
 
-    recordStep(summary, out, "C3 source changeString(updated) succeeds", source.changeString("updated"));
+    recordStep(summary, out, "C3 source setValue(STRING, KeepType) to updated succeeds",
+               source.setValue("updated", SetPolicy::KeepType));
     recordStep(summary, out, "C4 source now reads updated", source.asString() == "updated");
     recordStep(summary, out, "C5 copied still reads root", copied.asString() == "root");
 

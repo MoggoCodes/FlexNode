@@ -29,8 +29,9 @@ The project includes:
 After initialization:
 
 - Calling another `add*` returns `false` (node already contains data).
-- You can update the stored value only with the matching `change*` method.
-  - Example: if the node stores `DOUBLE`, only `changeDouble(...)` will succeed.
+- You can update values through `setValue(...)`:
+  - `SetPolicy::KeepType`: only updates when incoming type matches current type.
+  - `SetPolicy::Retype`: retypes the node when incoming type differs.
 - `clear()` resets the node back to `UNINITIALIZED`.
 
 Metadata access:
@@ -129,6 +130,6 @@ Typical usage:
 ```cpp
 FlexNode node;
 node.addDouble(3.5);     // true
-node.changeDouble(7.0);  // true
+node.setValue(7.0, SetPolicy::KeepType);  // true
 node.clear();            // true
 ```

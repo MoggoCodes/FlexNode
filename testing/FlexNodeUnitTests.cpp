@@ -49,10 +49,16 @@ TestSummary runComprehensiveUnitTests(std::ostream &out) {
         recordCheck(summary, out, "node reports INT after addInt", node.is(Type::INT));
         recordCheck(summary, out, "asInt returns stored int", node.asInt() == 7);
         recordCheck(summary, out, "addDouble fails on initialized node", !node.addDouble(2.5));
-        recordCheck(summary, out, "changeInt succeeds when type matches", node.changeInt(11));
-        recordCheck(summary, out, "changed int value is readable", node.asInt() == 11);
+        recordCheck(summary, out, "setValue(INT, KeepType) succeeds when type matches",
+                    node.setValue(11, SetPolicy::KeepType));
+        recordCheck(summary, out, "updated int value is readable", node.asInt() == 11);
         recordCheck(summary, out, "asDouble casts INT value", node.asDouble() == 11.0);
-        recordCheck(summary, out, "changeDouble fails when type mismatches", !node.changeDouble(3.0));
+        recordCheck(summary, out, "setValue(DOUBLE, KeepType) fails on INT node",
+                    !node.setValue(3.0, SetPolicy::KeepType));
+        recordCheck(summary, out, "setValue(DOUBLE, Retype) retypes node",
+                    node.setValue(3.0, SetPolicy::Retype));
+        recordCheck(summary, out, "node reports DOUBLE after retype", node.is(Type::DOUBLE));
+        recordCheck(summary, out, "retyped double value is readable", node.asDouble() == 3.0);
         recordCheck(summary, out, "clear succeeds on initialized node", node.clear());
         recordCheck(summary, out, "type resets to UNINITIALIZED after clear", node.getType() == Type::UNINITIALIZED);
         recordCheck(summary, out, "clear fails on already-empty node", !node.clear());
@@ -98,7 +104,7 @@ TestSummary runComprehensiveUnitTests(std::ostream &out) {
         source.addString("alpha");
         FlexNode copied(source);
         recordCheck(summary, out, "copy constructor copies current value", copied.asString() == "alpha");
-        source.changeString("beta");
+        source.setValue("beta", SetPolicy::KeepType);
         recordCheck(summary, out, "copy is independent of source changes", copied.asString() == "alpha");
     }
 
@@ -110,7 +116,7 @@ TestSummary runComprehensiveUnitTests(std::ostream &out) {
         assigned = source;
         recordCheck(summary, out, "assignment copies type", assigned.is(Type::DOUBLE));
         recordCheck(summary, out, "assignment copies value", assigned.asDouble() == 9.0);
-        source.changeDouble(4.0);
+        source.setValue(4.0, SetPolicy::KeepType);
         recordCheck(summary, out, "assignment is deep copy", assigned.asDouble() == 9.0);
     }
 

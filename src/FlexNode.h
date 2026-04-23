@@ -11,6 +11,7 @@ todo define accessors to dereference member pointers and return value
 */
 
 enum class Type {UNINITIALIZED, INT, DOUBLE, CHAR, STRING, BOOL};
+enum class SetPolicy {KeepType, Retype};
 
 constexpr std::size_t flexNodeMax(const std::size_t lhs, const std::size_t rhs) {
     return lhs > rhs ? lhs : rhs;
@@ -31,8 +32,13 @@ private:
     );
     alignas(kStorageAlign) std::byte storage[kStorageSize]{};
 
-    bool setNode(Type newType);
+    [[nodiscard]] bool setType(Type newType) const;
     bool resetNode();
+    bool changeInt(const int &newInt);
+    bool changeDouble(const double &newDbl);
+    bool changeChar(const char &newChar);
+    bool changeString(const std::string &newStr);
+    bool changeBool(const bool &newBool);
 
     //*Private Data Accessor
     template <typename T>
@@ -66,16 +72,15 @@ public:
     bool addChar(const char &charToAdd);
     bool addString(const std::string &strToAdd);
     bool addBool(const bool &boolToAdd);
+    bool setValue(const int &newInt, SetPolicy policy = SetPolicy::Retype);
+    bool setValue(const double &newDbl, SetPolicy policy = SetPolicy::Retype);
+    bool setValue(const char &newChar, SetPolicy policy = SetPolicy::Retype);
+    bool setValue(const std::string &newStr, SetPolicy policy = SetPolicy::Retype);
+    bool setValue(const char* newStr, SetPolicy policy = SetPolicy::Retype);
+    bool setValue(const bool &newBool, SetPolicy policy = SetPolicy::Retype);
 
     //*Uninitialize
     bool clear() {return resetNode();}
-
-    //*Modify
-    bool changeInt(const int &newInt);
-    bool changeDouble(const double &newDbl);
-    bool changeChar(const char &newChar);
-    bool changeString(const std::string &newStr);
-    bool changeBool(const bool &newBool);
 
     //*Overloaded Operators
     FlexNode& operator=(const FlexNode &rhs);
