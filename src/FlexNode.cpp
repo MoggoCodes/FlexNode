@@ -1,7 +1,9 @@
-#include "FlexNode.h"
+#include "flexnode/FlexNode.h"
 
 #include <sstream>
 #include <stdexcept>
+
+namespace flexnode {
 
 namespace {
 
@@ -280,3 +282,5 @@ FlexNode::~FlexNode() {
 std::ostream& operator<<(std::ostream& out, const FlexNode &flexNode) {
     return flexNode.print(out);
 }
+
+} // namespace flexnode

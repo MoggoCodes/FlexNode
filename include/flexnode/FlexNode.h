@@ -10,6 +10,8 @@ todo define accessors to dereference member pointers and return value
 ? Should this be refactored into using a union
 */
 
+namespace flexnode {
+
 enum class Type {UNINITIALIZED, INT, DOUBLE, CHAR, STRING, BOOL};
 enum class SetPolicy {KeepType, Retype};
 
@@ -91,3 +93,5 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& out, const FlexNode &flexNode);
+
+} // namespace flexnode

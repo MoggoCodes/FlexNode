@@ -1,10 +1,14 @@
 #include "FlexNodeTests.h"
 
-#include "FlexNode.h"
+#include "flexnode/FlexNode.h"
 
 #include <sstream>
 #include <stdexcept>
 #include <string>
+
+using flexnode::FlexNode;
+using flexnode::SetPolicy;
+using flexnode::Type;
 
 namespace {
 

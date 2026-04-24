@@ -68,6 +68,26 @@ cmake --build build --target flexnode_lib
 
 This default configuration is optimized for library usage (only `flexnode_lib` is enabled).
 
+## Install As A Library
+
+```bash
+cmake -S . -B build -DCMAKE_INSTALL_PREFIX=/your/prefix
+cmake --build build --target install
+```
+
+This installs:
+
+- Header: `include/flexnode/FlexNode.h`
+- Library archive/shared object in your install `lib` directory
+- CMake package files under `lib/cmake/FlexNode`
+
+Consumer CMake usage:
+
+```cmake
+find_package(FlexNode CONFIG REQUIRED)
+target_link_libraries(your_target PRIVATE FlexNode::flexnode)
+```
+
 To enable optional executables:
 
 ```bash
@@ -142,13 +162,16 @@ Invalid input prompts again for that field.
 
 ## API Surface (Quick Reference)
 
-Core declarations are in `src/FlexNode.h`, implementation in `src/FlexNode.cpp`.
+Core declarations are in `include/flexnode/FlexNode.h`, implementation in `src/FlexNode.cpp`.
+The public API is under the `flexnode` namespace.
 
 Typical usage:
 
 ```cpp
-FlexNode node;
+#include <flexnode/FlexNode.h>
+
+flexnode::FlexNode node;
 node.addDouble(3.5);     // true
-node.setValue(7.0, SetPolicy::KeepType);  // true
+node.setValue(7.0, flexnode::SetPolicy::KeepType);  // true
 node.clear();            // true
 ```
