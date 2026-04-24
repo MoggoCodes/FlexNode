@@ -1,81 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-set(FLEXNODE_VERSION "" CACHE STRING "Pinned FlexNode semantic version (MAJOR.MINOR.PATCH). Leave empty to derive from main branch tags.")
-set(_flexnode_version_regex "^[0-9]+\\.[0-9]+\\.[0-9]+$")
-set(_flexnode_effective_version "${FLEXNODE_VERSION}")
-
-if(_flexnode_effective_version STREQUAL "")
-    find_package(Git QUIET)
-    if(NOT Git_FOUND OR NOT EXISTS "${CMAKE_SOURCE_DIR}/.git")
-        message(FATAL_ERROR
-            "FLEXNODE_VERSION is empty and Git metadata is unavailable. "
-            "Set -DFLEXNODE_VERSION=MAJOR.MINOR.PATCH."
-        )
-    endif()
-
-    set(_flexnode_main_ref "")
-    execute_process(
-        COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_SOURCE_DIR}" show-ref --verify --quiet refs/remotes/origin/main
-        RESULT_VARIABLE _flexnode_origin_main_result
-    )
-    if(_flexnode_origin_main_result EQUAL 0)
-        set(_flexnode_main_ref "refs/remotes/origin/main")
-    else()
-        execute_process(
-            COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_SOURCE_DIR}" show-ref --verify --quiet refs/heads/main
-            RESULT_VARIABLE _flexnode_local_main_result
-        )
-        if(_flexnode_local_main_result EQUAL 0)
-            set(_flexnode_main_ref "refs/heads/main")
-        else()
-            message(FATAL_ERROR
-                "FLEXNODE_VERSION is empty and no main reference was found. "
-                "Expected refs/remotes/origin/main or refs/heads/main."
-            )
-        endif()
-    endif()
-
-    execute_process(
-        COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_SOURCE_DIR}" describe --tags --abbrev=0 --match "v[0-9]*.[0-9]*.[0-9]*" "${_flexnode_main_ref}"
-        OUTPUT_VARIABLE _flexnode_tag
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        RESULT_VARIABLE _flexnode_describe_result
-    )
-    if(NOT _flexnode_describe_result EQUAL 0 OR _flexnode_tag STREQUAL "")
-        execute_process(
-            COMMAND "${GIT_EXECUTABLE}" -C "${CMAKE_SOURCE_DIR}" describe --tags --abbrev=0 --match "[0-9]*.[0-9]*.[0-9]*" "${_flexnode_main_ref}"
-            OUTPUT_VARIABLE _flexnode_tag
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-            RESULT_VARIABLE _flexnode_describe_result
-        )
-    endif()
-    if(NOT _flexnode_describe_result EQUAL 0 OR _flexnode_tag STREQUAL "")
-        message(FATAL_ERROR
-            "FLEXNODE_VERSION is empty and no semver tag was found on ${_flexnode_main_ref}. "
-            "Tag main with vMAJOR.MINOR.PATCH (preferred) or set -DFLEXNODE_VERSION."
-        )
-    endif()
-
-    string(REGEX REPLACE "^v" "" _flexnode_effective_version "${_flexnode_tag}")
-    message(STATUS "Auto-derived FlexNode version ${_flexnode_effective_version} from ${_flexnode_main_ref} (${_flexnode_tag}).")
-endif()
-
-if(NOT _flexnode_effective_version MATCHES "${_flexnode_version_regex}")
-    message(FATAL_ERROR
-        "Resolved FlexNode version '${_flexnode_effective_version}' is invalid. "
-        "Expected MAJOR.MINOR.PATCH."
-    )
-endif()
-
-# CMake stores CMAKE_PROJECT_VERSION* as STATIC cache entries.
-# Clear stale values so version changes propagate in existing build folders.
-unset(CMAKE_PROJECT_VERSION CACHE)
-unset(CMAKE_PROJECT_VERSION_MAJOR CACHE)
-unset(CMAKE_PROJECT_VERSION_MINOR CACHE)
-unset(CMAKE_PROJECT_VERSION_PATCH CACHE)
-unset(CMAKE_PROJECT_VERSION_TWEAK CACHE)
-
-project(FlexNode VERSION ${_flexnode_effective_version} LANGUAGES CXX)
+project(FlexNode LANGUAGES CXX)
 
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
@@ -97,8 +22,6 @@ add_library(FlexNode::flexnode ALIAS flexnode_lib)
 set_target_properties(flexnode_lib PROPERTIES
     EXPORT_NAME flexnode
     OUTPUT_NAME flexnode
-    VERSION ${PROJECT_VERSION}
-    SOVERSION ${PROJECT_VERSION_MAJOR}
 )
 target_compile_features(flexnode_lib PUBLIC cxx_std_17)
 
@@ -133,15 +56,8 @@ if(FLEXNODE_ENABLE_INSTALL)
         INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FlexNode
     )
 
-    write_basic_package_version_file(
-        ${CMAKE_CURRENT_BINARY_DIR}/FlexNodeConfigVersion.cmake
-        VERSION ${PROJECT_VERSION}
-        COMPATIBILITY SameMajorVersion
-    )
-
     install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/FlexNodeConfig.cmake
-        ${CMAKE_CURRENT_BINARY_DIR}/FlexNodeConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/FlexNode
     )
 endif()

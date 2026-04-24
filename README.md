@@ -68,10 +68,7 @@ cmake --build build --target flexnode_lib
 
 This default configuration is optimized for library usage (only `flexnode_lib` is enabled).
 
-Version resolution:
-
-- If `FLEXNODE_VERSION` is not provided, CMake derives the version from the latest semver tag reachable from `origin/main` (fallback: local `main`).
-- To pin a specific version, pass `-DFLEXNODE_VERSION=MAJOR.MINOR.PATCH`.
+Versioning is managed by Git (tags/checkout), not by CMake.
 
 ## Install As A Library
 
@@ -84,7 +81,7 @@ This installs:
 
 - Header: `include/flexnode/FlexNode.h`
 - Library archive/shared object in your install `lib` directory
-- CMake package files under `lib/cmake/FlexNode`
+- CMake package files under `lib/cmake/FlexNode` (`FlexNodeConfig.cmake` + exported targets)
 
 Consumer CMake usage:
 
