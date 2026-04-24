@@ -68,6 +68,11 @@ cmake --build build --target flexnode_lib
 
 This default configuration is optimized for library usage (only `flexnode_lib` is enabled).
 
+Version resolution:
+
+- If `FLEXNODE_VERSION` is not provided, CMake derives the version from the latest semver tag reachable from `origin/main` (fallback: local `main`).
+- To pin a specific version, pass `-DFLEXNODE_VERSION=MAJOR.MINOR.PATCH`.
+
 ## Install As A Library
 
 ```bash
